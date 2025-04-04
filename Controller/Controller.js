@@ -23,10 +23,32 @@ export const insert = async(req,res)=>{
         res.status(402).json(`Unable the Insert the product information${error}`)
     }
 }
-export const edit = (req,res)=>{
-    const {userNumber} = req.body;
-    res.json(`${userNumber} userNumber sucessfully changed`)
+export const edit = async (req, res) => {
+    try {
+        const db = getdb();
+        const { productName } = req.params;
+        const { productPrice } = req.body;
+        const updatedData = await db.collection('NewTable').updateOne(
+            { productName: productName },
+            { $set: { productPrice } });
+        if (updatedData.matchedCount === 0) {
+            return res.status(404).json({ message: "Product not found" });}
+
+        res.status(200).json({ message: "Product updated successfully", data: updatedData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred while updating the product", error: error.message });
+    }
 }
-export const deleteUser = (req,res)=>{
-    res.json("User Deleted Sucessfully")
+
+export const deleteUser = async(req,res)=>{
+    try {
+        const db = getdb();
+        const { productName } = req.params;
+        const DeleteData = await db.collection('NewTable').deleteOne({productName})
+        res.status(200).json({ message: "Product Deleted successfully", data: DeleteData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred while Deleted the product", error: error.message });
+    }
 }

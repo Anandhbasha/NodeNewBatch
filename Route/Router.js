@@ -6,7 +6,7 @@ route.get('/',read)
 //insert new data
 route.post('/',insert)
 //edit
-route.patch('/edit/:id',edit)
+route.put('/edit/:productName',edit)
 //delete
-route.delete('/delete/:name',deleteUser)
+route.delete('/delete/:productName',deleteUser)
 export default route

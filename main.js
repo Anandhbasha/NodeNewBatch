@@ -5,7 +5,7 @@ const app = express()
 const PORT =3200
 app.use(express.json())
 Database("mongodb://127.0.0.1:27017/Newone")
-app.use(route)
+app.use('/crud',route)
 
 app.listen(PORT,()=>{
     console.log(`http://localhost:${PORT}`);    
